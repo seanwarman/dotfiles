@@ -1,0 +1,80 @@
+# Set lighter background for tty...
+if [ "$TERM" = "linux" ]; then
+    echo -en "\e]P0232323" #black
+    echo -en "\e]P82B2B2B" #darkgrey
+    echo -en "\e]P1D75F5F" #darkred
+    echo -en "\e]P9E33636" #red
+    echo -en "\e]P287AF5F" #darkgreen
+    echo -en "\e]PA98E34D" #green
+    echo -en "\e]P3D7AF87" #brown
+    echo -en "\e]PBFFD75F" #yellow
+    echo -en "\e]P48787AF" #darkblue
+    echo -en "\e]PC7373C9" #blue
+    echo -en "\e]P5BD53A5" #darkmagenta
+    echo -en "\e]PDD633B2" #magenta
+    echo -en "\e]P65FAFAF" #darkcyan
+    echo -en "\e]PE44C9C9" #cyan
+    # echo -en "\e]P7E5E5E5" #lightgrey
+    echo -en "\e]PFFFFFFF" #white
+    clear #for background artifacting
+fi
+
+# Homepage for w3m
+export WWW_HOME=https://duckduckgo.com/
+
+export STARTX_PROG=brave
+
+# Starts an gui dwm client with the given program, quits when program is...
+alias bravex="STARTX_PROG=brave && startx &> /dev/null"
+alias termx="STARTX_PROG=xfce4-terminal && startx &> /dev/null"
+alias mailx="STARTX_PROG=\"brave https://protonmail.com/login\" && startx &> /dev/null"
+alias githubx="STARTX_PROG=\"brave https://github.com/seanwarman\" && startx &> /dev/null"
+alias thunex="STARTX_PROG=thunar && startx &> /dev/null"
+alias qutex="STARTX_PROG=qutebrowser && startx &> /dev/null"
+
+alias rnr=ranger
+
+# note that this accepts 90000 for around 100% brightness
+export INTEL_BCKLGHT=90000
+
+function brightness() {
+  echo $@ > /sys/class/backlight/intel_backlight/brightness
+}
+function brightnessup() {
+  if [[ "$INTEL_BCKLGHT" -lt 98000 ]]; then
+    ((INTEL_BCKLGHT=INTEL_BCKLGHT+10000))
+    brightness $INTEL_BCKLGHT > /dev/null
+  fi
+}
+function brightnessdown() {
+  if [[ "$INTEL_BCKLGHT" -gt 0 ]]; then
+    ((INTEL_BCKLGHT=INTEL_BCKLGHT-10000))
+    brightness $INTEL_BCKLGHT > /dev/null
+  fi
+}
+
+export HDA_INTEL_VOL=50
+
+function volumeup() {
+  if [[ "$HDA_INTEL_VOL" -lt 100 ]]; then
+    ((HDA_INTEL_VOL=HDA_INTEL_VOL+2))
+    amixer -c 0 -- sset Master playback "$HDA_INTEL_VOL" > /dev/null
+  fi
+}
+function volumedown() {
+  if [[ "$HDA_INTEL_VOL" -gt 0 ]]; then
+    ((HDA_INTEL_VOL=HDA_INTEL_VOL-2))
+    amixer -c 0 -- sset Master playback "$HDA_INTEL_VOL" > /dev/null
+  fi
+}
+function volumemute() {
+  HDA_INTEL_VOL=0
+  amixer -c 0 -- sset Master playback "$HDA_INTEL_VOL" > /dev/null
+}
+
+function viewer() {
+  echo "<img src=\"$@\" />" | w3m -T text/html
+}
+
+alias v=viewer
+
