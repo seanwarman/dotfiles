@@ -29,8 +29,35 @@ alias mailx="$HOME/dotfiles/startx/./xst brave https://protonmail.com/login &> /
 alias githubx="$HOME/dotfiles/startx/./xst brave https://github.com/seanwarman &> /dev/null"
 alias thunex="$HOME/dotfiles/startx/./xst thunar &> /dev/null"
 alias xs="$HOME/dotfiles/startx/./xst"
-alias tach="xfce4-terminal -e tmux\ attach"
-# alias duck="$HOME/dotfiles/startx/./xst brave https://duckduckgo.com/\?q\=$0"
+
+# Do x<tab> to show a fzf with bins and their --help info, enter to put the bin
+# in the prompt ready to execute...
+function x() {
+  $@
+}
+function __xcompletion__() {
+  COMPREPLY=$(/bin/ls /bin | fzf --preview='{} --help')
+}
+complete -F __xcompletion__ x
+
+# Run this to go into a fzf of bins to run with xinit...
+# $ f<cr>
+function f() {
+  comm=$(/bin/ls /bin | fzf --preview='{} --help')
+  if [[ "$comm" ]]; then
+    $HOME/dotfiles/startx/./xst $comm
+  fi
+}
+
+# A command to search duckduckgo from the terminal...
+# $ duck <search-term>
+function duck() {
+  $HOME/dotfiles/startx/./xst brave https://duckduckgo.com/\?q\=$(echo $@ | sed 's/ /+/g')
+}
+
+
+
+# Show a fzf menu for tmux sessions with preview...
 function fztach() {
   tmux attach -t $(tmux list-sessions | fzf --preview 'tmux capture-pane -p -e -t {1}' | awk '{print $1}')
 }
