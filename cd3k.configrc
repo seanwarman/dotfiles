@@ -22,15 +22,18 @@ fi
 # Homepage for w3m
 export WWW_HOME=https://duckduckgo.com/
 
-export STARTX_PROG=brave
-
 # Starts an gui dwm client with the given program, quits when program is...
-alias bravex="STARTX_PROG=brave && startx &> /dev/null"
-alias termx="STARTX_PROG=xfce4-terminal && startx &> /dev/null"
-alias mailx="STARTX_PROG=\"brave https://protonmail.com/login\" && startx &> /dev/null"
-alias githubx="STARTX_PROG=\"brave https://github.com/seanwarman\" && startx &> /dev/null"
-alias thunex="STARTX_PROG=thunar && startx &> /dev/null"
-alias qutex="STARTX_PROG=qutebrowser && startx &> /dev/null"
+alias bravex="$HOME/dotfiles/startx/./xst brave &> /dev/null"
+alias termx="$HOME/dotfiles/startx/./xst xfce4-terminal &> /dev/null"
+alias mailx="$HOME/dotfiles/startx/./xst brave https://protonmail.com/login &> /dev/null"
+alias githubx="$HOME/dotfiles/startx/./xst brave https://github.com/seanwarman &> /dev/null"
+alias thunex="$HOME/dotfiles/startx/./xst thunar &> /dev/null"
+alias xs="$HOME/dotfiles/startx/./xst"
+alias tach="xfce4-terminal -e tmux\ attach"
+# alias duck="$HOME/dotfiles/startx/./xst brave https://duckduckgo.com/\?q\=$0"
+function fztach() {
+  tmux attach -t $(tmux list-sessions | fzf --preview 'tmux capture-pane -p -e -t {1}' | awk '{print $1}')
+}
 
 alias rnr=ranger
 

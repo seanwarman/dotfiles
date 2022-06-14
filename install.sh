@@ -1,7 +1,7 @@
 # Make this more general so we could put the install directory anywhere (symlinks?)
 export CD3K_CONFIG_DIR=$HOME/dotfiles
 
-sudo pacman -S w3m xorg-xinit the_silver_searcher fbgrab
+sudo pacman -S w3m xorg-xinit the_silver_searcher fbgrab python-pip
 
 # use a custom .xinitrc
 cp ./X11/.xinitrc $HOME/.xinitrc
@@ -9,6 +9,8 @@ echo 'source '$CD3K_CONFIG_DIR/cd3k.configrc'' >> $HOME/.zshrc
 # make vim the default editor (rather than nvim)
 echo 'export EDITOR=/usr/bin/vim' >> $HOME/.zshrc
 echo 'export VISUAL=/usr/bin/vim' >> $HOME/.zshrc
+# cp overwrite 00-keyboard.conf to swap caps and escape
+sudo cp -r X11/00-keyboard.conf /etc/X11/xorg.conf.d/00-keyboard.conf
 
 # Add custom keyboard mappings for tty
 sudo mkdir /usr/local/share/kbd

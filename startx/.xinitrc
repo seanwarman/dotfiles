@@ -50,4 +50,4 @@ fi
 
 dwm &
 sxhkd &
-exec "$STARTX_PROG"
+$XINIT_CLIENT_ARGS
